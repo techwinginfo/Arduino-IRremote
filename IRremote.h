@@ -133,7 +133,7 @@ decode_type_t;
 //------------------------------------------------------------------------------
 // Set DEBUG to 1 for lots of lovely debug output
 //
-#define DEBUG  1
+#define DEBUG  0
 
 //------------------------------------------------------------------------------
 // Debug directives
