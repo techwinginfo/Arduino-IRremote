@@ -91,9 +91,15 @@ int  IRrecv::decode (decode_results *results)
 #endif
 
 #if DECODE_YAMAZEN
-	DBG_PRINTLN("Attempting YAMAZEN decode");
-	if (decodeYAMAZEN(results))  return true ;
+	DBG_PRINTLN("Attempting Yamazen decode");
+	if (decodeYamazen(results))  return true ;
 #endif	
+
+#if DECODE_PENTAX
+	DBG_PRINTLN("Attempting Pentax decode");
+	if (decodePentax(results))  return true;
+#endif	
+
 	// decodeHash returns a hash on any input.
 	// Thus, it needs to be last in the list.
 	// If you add any decodes, add them before this.

@@ -17,8 +17,8 @@ void setup()
 
 void loop() {
   int khz = 38; // 38kHz carrier frequency for the NEC protocol
-  irsend.sendYamazen(0x60C5F708, 32);
+  irsend.sendPentax(0x3F, 6);
   delay(10000); //10 second delay between each signal burst
-  irsend.sendYamazen(0x60C5F707, 32);
+  irsend.sendPentax(0x3F, 6);
   delay(10000); //10 second delay between each signal burst
 }

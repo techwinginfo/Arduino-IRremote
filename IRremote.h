@@ -82,6 +82,9 @@
 #define DECODE_YAMAZEN       1 
 #define SEND_YAMAZEN         1
 
+#define DECODE_PENTAX        1 
+#define SEND_PENTAX			 1
+
 //------------------------------------------------------------------------------
 // When sending a Pronto code we request to send either the "once" code
 //                                                   or the "repeat" code
@@ -122,14 +125,15 @@ typedef
 		DENON,
 		PRONTO,
 		LEGO_PF,
-		YAMAZEN
+		YAMAZEN,
+		PENTAX,
 	}
 decode_type_t;
 
 //------------------------------------------------------------------------------
 // Set DEBUG to 1 for lots of lovely debug output
 //
-#define DEBUG  0
+#define DEBUG  1
 
 //------------------------------------------------------------------------------
 // Debug directives
@@ -257,7 +261,11 @@ class IRrecv
 #		endif
 	//......................................................................
 #		if DECODE_YAMAZEN
-			bool  decodeYAMAZEN        (decode_results *results) ;
+			bool  decodeYamazen(decode_results *results) ;
+#		endif
+			//......................................................................
+#		if DECODE_PENTAX
+			bool  decodePentax(decode_results *results);
 #		endif
 } ;
 
@@ -349,9 +357,12 @@ class IRsend
 #		endif
 		//......................................................................
 #		if SEND_YAMAZEN
-			void  sendYAMAZEN        (unsigned long data,  int nbits) ;
+			void  sendYamazen(unsigned long data,  int nbits) ;
 #		endif
-	
+#		if SEND_PENTAX
+			void  sendPentax(unsigned long data, int nbits);
+#		endif
+
 } ;
 
 #endif

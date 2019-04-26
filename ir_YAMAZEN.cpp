@@ -15,7 +15,7 @@
 
 //+=============================================================================
 #if SEND_YAMAZEN
-void  IRsend::sendYAMAZEN (unsigned long data,  int nbits)
+void  IRsend::sendYamazen (unsigned long data,  int nbits)
 {
 	// Set IR carrier frequency
 	enableIROut(38);
@@ -49,7 +49,7 @@ void  IRsend::sendYAMAZEN (unsigned long data,  int nbits)
 // YAMAZENs have a repeat only 4 items long
 //
 #if DECODE_YAMAZEN
-bool  IRrecv::decodeYAMAZEN(decode_results *results)
+bool  IRrecv::decodeYamazen(decode_results *results)
 {
 	long  data = 0;  // We decode in to here; Start with nothing
 	int   offset = 1;  // Index in to results; Skip first entry!?

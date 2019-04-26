@@ -1,7 +1,9 @@
 {
   "ExpandedNodes": [
-    ""
+    "",
+    "\\examples",
+    "\\examples\\IRsendDemoYamazen"
   ],
-  "SelectedNode": "\\ir_Aiwa.cpp",
+  "SelectedNode": "\\ir_Panasonic.cpp",
   "PreviewInSolutionExplorer": false
 }
