@@ -57,6 +57,7 @@ void  encoding (decode_results *results)
     case PANASONIC:    Serial.print("PANASONIC");     break ;
     case DENON:        Serial.print("Denon");         break ;
     case YAMAZEN:      Serial.print("YAMAZEN");       break ;
+    case PENTAX:       Serial.print("PENTAX");        break ;
   }
 }
 
