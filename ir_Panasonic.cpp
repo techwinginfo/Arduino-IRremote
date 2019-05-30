@@ -12,9 +12,11 @@
 #define PANASONIC_BITS          48
 #define PANASONIC_HDR_MARK    3502
 #define PANASONIC_HDR_SPACE   1750
-#define PANASONIC_BIT_MARK     502
+//#define PANASONIC_BIT_MARK     502
+#define PANASONIC_BIT_MARK     400
 #define PANASONIC_ONE_SPACE   1244
-#define PANASONIC_ZERO_SPACE   400
+//#define PANASONIC_ZERO_SPACE   400
+#define PANASONIC_ZERO_SPACE   500
 
 //+=============================================================================
 #if SEND_PANASONIC
@@ -28,17 +30,31 @@ void  IRsend::sendPanasonic (unsigned int address,  unsigned long data)
 	space(PANASONIC_HDR_SPACE);
 
 	// Address
-	for (unsigned long  mask = 1UL << (16 - 1);  mask;  mask >>= 1) {
+	for (unsigned long  mask = 1UL << (16 - 1);  mask;  mask >>= 1) 
+	{
 		mark(PANASONIC_BIT_MARK);
-		if (address & mask)  space(PANASONIC_ONE_SPACE) ;
-		else                 space(PANASONIC_ZERO_SPACE) ;
+		if (address & mask)
+		{
+			space(PANASONIC_ONE_SPACE);
+		}
+		else
+		{
+			space(PANASONIC_ZERO_SPACE);
+		}
     }
 
 	// Data
-	for (unsigned long  mask = 1UL << (32 - 1);  mask;  mask >>= 1) {
+	for (unsigned long  mask = 1UL << (32 - 1);  mask;  mask >>= 1) 
+	{
         mark(PANASONIC_BIT_MARK);
-        if (data & mask)  space(PANASONIC_ONE_SPACE) ;
-        else              space(PANASONIC_ZERO_SPACE) ;
+		if (data & mask)
+		{
+			space(PANASONIC_ONE_SPACE);
+		}
+		else
+		{
+			space(PANASONIC_ZERO_SPACE);
+		}
     }
 
 	// Footer
@@ -49,30 +65,56 @@ void  IRsend::sendPanasonic (unsigned int address,  unsigned long data)
 
 //+=============================================================================
 #if DECODE_PANASONIC
-bool  IRrecv::decodePanasonic (decode_results *results)
+bool  IRrecv::decodePanasonic(decode_results *results)
 {
-    unsigned long long  data   = 0;
-    int                 offset = 1;
+	unsigned long long  data = 0;
+	int                 offset = 1;
 
-    if (!MATCH_MARK(results->rawbuf[offset++], PANASONIC_HDR_MARK ))  return false ;
-    if (!MATCH_MARK(results->rawbuf[offset++], PANASONIC_HDR_SPACE))  return false ;
+	if (!MATCH_MARK(results->rawbuf[offset++], PANASONIC_HDR_MARK))
+	{
+		return false;
+	}
+	if (!MATCH_MARK(results->rawbuf[offset++], PANASONIC_HDR_SPACE))
+	{
+		return false;
+	}
 
-    // decode address
-    for (int i = 0;  i < PANASONIC_BITS;  i++) {
-        if (!MATCH_MARK(results->rawbuf[offset++], PANASONIC_BIT_MARK))  return false ;
+	// Check we have enough data
+	if (irparams.rawlen < (2 * PANASONIC_BITS) + 4)
+	{
+		return false;
+	}
 
-        if      (MATCH_SPACE(results->rawbuf[offset],PANASONIC_ONE_SPACE ))  data = (data << 1) | 1 ;
-        else if (MATCH_SPACE(results->rawbuf[offset],PANASONIC_ZERO_SPACE))  data = (data << 1) | 0 ;
-        else                                                                 return false ;
-        offset++;
-    }
+	// decode address
+	for (int i = 0; i < PANASONIC_BITS; i++) 
+	{
+		if (!MATCH_MARK(results->rawbuf[offset++], PANASONIC_BIT_MARK))
+		{
+			return false;
+		}
 
-    results->value       = (unsigned long)data;
-    results->address     = (unsigned int)(data >> 32);
-    results->decode_type = PANASONIC;
-    results->bits        = PANASONIC_BITS;
+		if (MATCH_SPACE(results->rawbuf[offset], PANASONIC_ONE_SPACE))
+		{
+			data = (data << 1) | 1;
+		}
+		else if (MATCH_SPACE(results->rawbuf[offset], PANASONIC_ZERO_SPACE))
+		{
+			data = (data << 1) | 0;
+		}
+		else
+		{
+			return false;
+		}
 
-    return true;
+		offset++;
+	}
+
+	results->value = (unsigned long)data;
+	results->address = (unsigned int)(data >> 32);
+	results->decode_type = PANASONIC;
+	results->bits = PANASONIC_BITS;
+
+	return true;
 }
 #endif
 

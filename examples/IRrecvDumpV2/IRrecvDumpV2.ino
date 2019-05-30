@@ -6,7 +6,7 @@
 //------------------------------------------------------------------------------
 // Tell IRremote which Arduino pin is connected to the IR Receiver (TSOP4838)
 //
-int recvPin = 11;
+int recvPin = 4;
 IRrecv irrecv(recvPin);
 
 //+=============================================================================
@@ -56,6 +56,8 @@ void  encoding (decode_results *results)
     case AIWA_RC_T501: Serial.print("AIWA_RC_T501");  break ;
     case PANASONIC:    Serial.print("PANASONIC");     break ;
     case DENON:        Serial.print("Denon");         break ;
+    case YAMAZEN:      Serial.print("YAMAZEN");       break ;
+    case PENTAX:       Serial.print("PENTAX");        break ;
   }
 }
 
@@ -81,6 +83,10 @@ void  dumpInfo (decode_results *results)
   Serial.print(" (");
   Serial.print(results->bits, DEC);
   Serial.println(" bits)");
+  Serial.print("RawLen    : ");
+  Serial.println(results->rawlen, DEC);
+  Serial.print("Overflow    : ");
+  Serial.println(results->overflow, DEC);
 }
 
 //+=============================================================================
@@ -90,7 +96,7 @@ void  dumpRaw (decode_results *results)
 {
   // Print Raw data
   Serial.print("Timing[");
-  Serial.print(results->rawlen-1, DEC);
+  Serial.print(results->rawlen - 1, DEC);
   Serial.println("]: ");
 
   for (int i = 1;  i < results->rawlen;  i++) {
@@ -106,7 +112,7 @@ void  dumpRaw (decode_results *results)
       if (x < 1000)  Serial.print(" ") ;
       if (x < 100)   Serial.print(" ") ;
       Serial.print(x, DEC);
-      if (i < results->rawlen-1) Serial.print(", "); //',' not needed for last one
+      if (i < results->rawlen - 1) Serial.print(", "); //',' not needed for last one
     }
     if (!(i % 8))  Serial.println("");
   }
@@ -127,12 +133,12 @@ void  dumpCode (decode_results *results)
   // Dump data
   for (int i = 1;  i < results->rawlen;  i++) {
     Serial.print(results->rawbuf[i] * USECPERTICK, DEC);
-    if ( i < results->rawlen-1 ) Serial.print(","); // ',' not needed on last one
+    if ( i < results->rawlen - 1 ) Serial.print(","); // ',' not needed on last one
     if (!(i & 1))  Serial.print(" ");
   }
 
   // End declaration
-  Serial.print("};");  // 
+  Serial.print("};");  //
 
   // Comment
   Serial.print("  // ");
