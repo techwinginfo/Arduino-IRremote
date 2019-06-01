@@ -62,7 +62,7 @@ bool  IRrecv::decodePentax(decode_results *results)
 	offset++;
 
 	// Check we have enough data
-	if (irparams.rawlen < (2 * PENTAX_BITS) + 4)
+	if (results->rawlen < (2 * PENTAX_BITS) + 4)
 	{
 		return false;
 	}
