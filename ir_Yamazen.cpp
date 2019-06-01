@@ -62,7 +62,7 @@ bool  IRrecv::decodeYamazen(decode_results *results)
 	offset++;
 
 	// Check for repeat
-	if ((irparams.rawlen == 4)
+	if ((results->rawlen == 4)
 		&& MATCH_SPACE(results->rawbuf[offset], YAMAZEN_RPT_SPACE)
 		&& MATCH_MARK(results->rawbuf[offset + 1], YAMAZEN_BIT_MARK)
 		) 
@@ -74,7 +74,7 @@ bool  IRrecv::decodeYamazen(decode_results *results)
 	}
 
 	// Check we have enough data
-	if (irparams.rawlen < (2 * YAMAZEN_BITS) + 4)
+	if (results->rawlen < (2 * YAMAZEN_BITS) + 4)
 	{
 		return false;
 	}
