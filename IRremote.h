@@ -300,9 +300,7 @@ class IRsend
 #		endif
 		//......................................................................
 #		if SEND_PANASONIC
-			void  sendPanasonic(unsigned int address,  unsigned long data) ;
-			void  sendPanasonicLight(unsigned int address, unsigned long data);
-			void  sendPanasonicImpl(unsigned int khz, unsigned int address, unsigned int addrLen, unsigned long data);
+			void  sendPanasonic  (unsigned int address,  unsigned long data) ;
 #		endif
 		//......................................................................
 #		if SEND_JVC
